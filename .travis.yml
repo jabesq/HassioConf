@@ -1,0 +1,11 @@
+language: python
+python:
+  - "3.6"
+before_install:
+  - mv travis_secrets.yaml secrets.yaml
+  - mv ssh-keys/travis_id_rsa ssh-keys/id_rsa
+  - mv ssh-keys/travis_id_rsa.pub ssh-keys/id_rsa.pub
+install:
+  - pip3 install homeassistant
+script:
+  - hass -c . --script check_config
