@@ -1,0 +1,8 @@
+sensor.living_room_nest_protect_color_status:
+  hidden: true
+sensor.netatmo_salon_wifi:
+  hidden: true
+sensor.residence_eta:
+  hidden: true
+binary_sensor.residence_away:
+  hidden: true

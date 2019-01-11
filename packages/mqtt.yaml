@@ -1,0 +1,6 @@
+sensor:
+    platform: mqtt
+    state_topic: "owntracks/Hugo/Iphone"
+    name: "Battery iPhone"
+    unit_of_measurement: "% (batt.)"
+    value_template: '{{ value_json.batt }}'

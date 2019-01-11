@@ -1,0 +1,9 @@
+devices_tracked:
+    entities:
+      - device_tracker.dominique
+      - device_tracker.francoise
+      - device_tracker.hugo_iphone
+      - device_tracker.iphone
+      - device_tracker.iphonehass
+      - device_tracker.nokia_61
+      - device_tracker.vanessa

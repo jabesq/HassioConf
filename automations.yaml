@@ -1,0 +1,11 @@
+- id: '1546691731763'
+  alias: Hassio Start
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition: []
+  action:
+  - data:
+      retain: false
+      topic: hassio/start
+    service: mqtt.publish

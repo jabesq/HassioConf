@@ -1,0 +1,42 @@
+homeassistant:
+    customize:
+        switch.interrupteur_couloir:
+            homebridge_hidden: true
+        switch.interrupteur_cuisine:
+            homebridge_hidden: true
+        switch.interrupteur_salon_1:
+            homebridge_hidden: true
+        switch.interrupteur_salon_2:
+            homebridge_hidden: true
+        switch.switch_rfxcom:
+            homebridge_hidden: true
+
+rfxtrx:
+    device: /dev/ttyUSB0
+
+cover:
+  - platform: rfxtrx
+    automatic_add: False
+    devices:
+        071a000001020304: # RFY
+            name: Volet Salon
+        071a000001020305: # RFY
+            name: Volet Chambre Amis
+        071a000001020306: # RFY
+            name: Volet Cuisine
+  - platform: group
+    name: Tous les volets
+    entities:
+      - cover.volet_salon
+      - cover.volet_cuisine
+      - cover.volet_chambre_amis
+
+switch:
+    platform: rfxtrx
+    devices:
+        0b150000467b480101027570:
+            name: Interrupteur lumière cuisine
+
+# sensor:
+# - platform: rfxtrx
+  # automatic_add: False

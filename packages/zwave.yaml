@@ -1,0 +1,118 @@
+homeassistant:
+    customize:
+        binary_sensor.aeotec_zw100_multisensor_6_sensor:
+            device_class: motion
+        sensor.fibaro_system_fgwpef_wall_plug_gen5_alarm_level:
+            hidden: true
+        sensor.fibaro_system_fgwpef_wall_plug_gen5_alarm_type:
+            hidden: true
+        sensor.fibaro_system_fgwpef_wall_plug_gen5_exporting:
+            hidden: true
+        sensor.fibaro_system_fgwpef_wall_plug_gen5_power_2:
+            hidden: true
+        sensor.fibaro_system_fgwpef_wall_plug_gen5_power_management:
+            hidden: true
+        sensor.fibaro_system_fgwpef_wall_plug_gen5_sourcenodeid:
+            hidden: true
+        sensor.fibaro_system_fgwpef_wall_plug_gen5_alarm_level_2:
+            hidden: true
+        sensor.fibaro_system_fgwpef_wall_plug_gen5_alarm_type_2:
+            hidden: true
+        sensor.fibaro_system_fgwpef_wall_plug_gen5_exporting_2:
+            hidden: true
+        sensor.fibaro_system_fgwpef_wall_plug_gen5_power_4:
+            hidden: true
+        sensor.fibaro_system_fgwpef_wall_plug_gen5_power_management_2:
+            hidden: true
+        sensor.fibaro_system_fgwpef_wall_plug_gen5_sourcenodeid_2:
+            hidden: true
+        sensor.aeotec_zw100_multisensor_6_level:
+            hidden: true
+        sensor.aeotec_zw100_multisensor_6_alarm_type:
+            hidden: true
+        sensor.aeotec_zw100_multisensor_6_sourcenodeid:
+            hidden: true
+        climate.remotec_zxt120eu_heating_1:
+            hidden: false
+        climate.remotec_zxt120eu_unused_4:
+            hidden: true
+        climate.remotec_zxt120eu_unused_6:
+            hidden: true
+
+climate:
+  - platform: zwave
+
+binary_sensor:
+  - platform: template
+    entity_id: sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control
+    sensors:
+        capteur_ouverture:
+            device_class: opening
+            friendly_name: 'Porte/Fenetre'
+            value_template: "{{ not is_state('sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control', '23') }}"
+
+sensor:
+  - platform: template
+    sensors:
+        battery_multisensor:
+            entity_id: zwave.aeotec_zw100_multisensor_6
+            friendly_name: Batterie Multisensor Entrée
+            unit_of_measurement: '%'
+            value_template: '{{ states.zwave.aeotec_zw100_multisensor_6.attributes.battery_level }}'
+        battery_detecteur_inondation:
+            entity_id: zwave.detecteur_inondation
+            friendly_name: Batterie Détecteur Inondation
+            unit_of_measurement: '%'
+            value_template: '{{ states.zwave.detecteur_inondation.attributes.battery_level }}'
+        battery_sensor_door:
+            entity_id: zwave.fibaro_system_fgdw002_door_opening_sensor_2
+            friendly_name: Batterie Détecteur Inondation
+            unit_of_measurement: '%'
+            value_template: '{{ states.zwave.fibaro_system_fgdw002_door_opening_sensor_2.attributes.battery_level }}'
+
+group:
+    zw_multisensor_entree:
+        name: Multisensor Entrée
+        entities:
+          - binary_sensor.aeotec_zw100_multisensor_6_sensor
+          - sensor.aeotec_zw100_multisensor_6_temperature
+          - sensor.aeotec_zw100_multisensor_6_relative_humidity
+          - sensor.aeotec_zw100_multisensor_6_luminance
+          - sensor.aeotec_zw100_multisensor_6_ultraviolet
+          - sensor.aeotec_zw100_multisensor_6_burglar
+    zw_fibaro_system_fgwpef_wall_plug_gen5:
+        name: Bouboule de Lumière
+        entities:
+          - switch.fibaro_system_fgwpef_wall_plug_gen5_switch
+          - sensor.fibaro_system_fgwpef_wall_plug_gen5_power
+          - sensor.fibaro_system_fgwpef_wall_plug_gen5_energy
+    zw_fibaro_system_fgwpef_wall_plug_gen5_2:
+        name: Arbre Lumière
+        entities:
+          - switch.fibaro_system_fgwpef_wall_plug_gen5_switch_2
+          - sensor.fibaro_system_fgwpef_wall_plug_gen5_power_3
+          - sensor.fibaro_system_fgwpef_wall_plug_gen5_energy_2
+    zw_detecteur_inondation:
+        name: Détecteur Inondation
+        entities:
+          - binary_sensor.fibaro_system_fgfs101_zwave_flood_sensor_sensor
+          - sensor.fibaro_system_fgfs101_zwave_flood_sensor_temperature
+          - sensor.fibaro_system_fgfs101_zwave_flood_sensor_flood
+          - sensor.fibaro_system_fgfs101_zwave_flood_sensor_flood_2
+          - sensor.fibaro_system_fgfs101_zwave_flood_sensor_general
+          - sensor.fibaro_system_fgfs101_zwave_flood_sensor_burglar
+    zw_prise_machine_laver:
+        name: Machine à Laver
+        entities:
+          - switch.machine_a_laver_switch
+          - sensor.machine_a_laver_energy
+          - sensor.machine_a_laver_power
+    zw_fibaro_system_fgdw002_door_opening_sensor_2:
+        name: Capteur ouverture Fenêtre/porte
+        entities:
+          - binary_sensor.fibaro_system_fgdw002_door_opening_sensor_2_sensor
+          - sensor.fibaro_system_fgdw002_door_opening_sensor_2_access_control
+          - sensor.fibaro_system_fgdw002_door_opening_sensor_2_burglar
+          - sensor.fibaro_system_fgdw002_door_opening_sensor_2_heat
+          - sensor.fibaro_system_fgdw002_door_opening_sensor_2_power_management
+          - sensor.fibaro_system_fgdw002_door_opening_sensor_2_temperature

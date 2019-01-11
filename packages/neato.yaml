@@ -1,0 +1,55 @@
+neato:
+    username: !secret neato_username
+    password: !secret neato_password
+
+input_boolean:
+    neato_started:
+
+group:
+    neato_botvac:
+        name: Neato
+        entities:
+          - vacuum.ganondorf
+          - switch.ganondorf_schedule
+
+#automation:
+#  ### Neato Connected automations for weekend days ###
+#  - alias: "Démarre Neato Connected (Weekend)"
+#    hide_entity: true
+#    trigger:
+#        platform: state
+#        entity_id: group.all_devices
+#        from: "home"
+#        to: "not_home"
+#    condition:
+#        condition: and
+#        conditions:
+#          - condition: time
+#            after: '09:00:00'
+#            before: '19:00:00'
+#          - condition: state
+#            entity_id: input_boolean.neato_weekend
+#            state: 'off'
+#    action:
+#      - service: vacuum.start
+#        entity_id: vacuum.ganondorf
+
+#  - alias: "Neato démarré manuellement (Weekend)"
+#    hide_entity: true
+#    trigger:
+#        platform: state
+#        entity_id: vacuum.ganondorf
+#        from: 'off'
+#        to: 'on'
+#    action:
+#        service: input_boolean.turn_on
+#        entity_id: input_boolean.neato_weekend
+#
+#  - alias: "Reset Journalier (Neato)"
+#    hide_entity: true
+#    trigger:
+#        platform: time
+#        at: '00:00:00'
+#    action:
+#        service: input_boolean.turn_off
+#        entity_id: input_boolean.neato_weekend

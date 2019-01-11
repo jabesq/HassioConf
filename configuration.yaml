@@ -1,0 +1,247 @@
+homeassistant:
+    # Name of the location where Home Assistant is running
+    name: Home
+    # C for Celcius, F for Fahrenheit
+    temperature_unit: C
+    unit_system: metric
+    # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+    time_zone: Europe/Paris
+    # location required to calculate the time the sun rises and sets
+    latitude: !secret home_latitude
+    longitude: !secret home_longitude
+    elevation: 0
+    auth_providers:
+      - type: homeassistant
+      - type: legacy_api_password
+      - type: trusted_networks
+    packages: !include_dir_named packages
+    customize: !include customize.yaml
+    customize_glob:
+        "sensor.*_sourcenodeid":
+            hidden: true
+        "sensor.*_alarm_level":
+            hidden: true
+        "sensor.*_alarm_type":
+            hidden: true
+
+# Show links to resources in log and frontend
+#introduction:
+
+# Enables the frontend
+frontend:
+    themes: !include_dir_merge_named themes
+
+http:
+    api_password: !secret api_password
+    base_url: !secret base_url
+    ssl_certificate: /ssl/fullchain.pem
+    ssl_key: /ssl/privkey.pem
+    use_x_forwarded_for: True
+    trusted_proxies:
+      - 127.0.0.1
+      - ::1
+    trusted_networks:
+      - 127.0.0.1
+      - ::1
+      - 192.168.1.0/24
+      - 10.8.0.0/24
+    ip_ban_enabled: True
+    login_attempts_threshold: 3
+
+# Enables configuration UI
+config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+#conversation:
+
+recorder:
+    purge_keep_days: 2
+    exclude:
+        domains:
+          - automation
+          - weblink
+          - updater
+        entities:
+          - sun.sun # Don't record sun data
+          - sensor.last_boot # Comes from 'systemmonitor' sensor platform
+          - sensor.date
+          - sensor.time
+          - sensor.pws_weather_1n_metric
+          - sensor.pws_weather_1d_metric
+          - sensor.pws_weather_2n_metric
+          - sensor.pws_weather_2d_metric
+          - sensor.pws_weather_3n_metric
+          - sensor.pws_weather_3d_metric
+          - sensor.pws_weather_4n_metric
+          - sensor.pws_weather_4d_metric
+          - sensor.pws_temp_high_1d_c
+          - sensor.pws_temp_high_record_c
+          - sensor.pws_temp_low_1d_c
+          - sensor.pws_temp_low_record_c
+          - sensor.asuswrt_upload_speed
+          - sensor.asuswrt_upload
+          - sensor.asuswrt_download_speed
+          - sensor.asuswrt_download
+          - sensor.yr_symbol
+          - sensor.uberx_price
+          - sensor.uberx_time
+
+# Enables support for tracking state changes over time
+history:
+    exclude:
+        domains:
+          - automation
+          - sun
+          - script
+          - group
+
+# View all events in a logbook
+logbook:
+
+ios:
+    push:
+        categories:
+          - name: alarm
+            identifier: 'camera'
+            actions:
+              - identifier: 'FIRE_ALARM'
+                title: 'Activer Alarme'
+                activationMode: 'background'
+                authenticationRequired: no
+                destructive: yes
+              - identifier: 'CANCEL_ALARM'
+                title: 'Désactiver Alarme'
+                activationMode: 'background'
+                authenticationRequired: no
+                destructive: yes
+
+#Notifier
+notify:
+  - platform: pushbullet
+    api_key: !secret pushbullet_api_key
+    name: pushbullet
+
+#IFTTT
+ifttt:
+    key: !secret ifttt_key
+  
+#Detect all device on network + my iCloud device + OwnTracks User (MQTT)
+device_tracker:
+  - platform: bluetooth_tracker
+    new_device_defaults:
+        track_new_devices: False
+        hide_if_away: False
+  - platform: tile
+    username: 'h_dupras@me.com'
+    password: ':j@besq'
+  
+owntracks:
+    max_gps_accuracy: 150
+    
+asuswrt:
+    host: !secret asuswrt_host
+    username: !secret asuswrt_username
+    ssh_key: '/config/ssh-keys/id_rsa'
+
+proximity:
+    home:
+        tolerance: 50
+        devices:
+          - device_tracker.hugo_iphone
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+# Sensors
+#sensor:
+
+# Text to speech
+tts:
+  - platform: google
+
+# Cloud
+cloud:
+
+alexa:
+    smart_home:
+        filter:
+            include_domains:
+              - cover
+            include_entities:
+              - input_boolean.harmony_appletv
+              - input_boolean.harmony_ps4
+              - input_boolean.harmony_switch
+              - input_boolean.babyphone_chambre
+              - input_boolean.babyphone_salon
+              - remote.harmony_hub
+        entity_config:
+            input_boolean.harmony_appletv:
+                name: Apple TV
+                description: Apple TV du Salon (via Harmony)
+            input_boolean.harmony_ps4:
+                name: Playstation 4
+                description: Playstation 3/4 (via Harmony)
+ #               display_categories: ACTIVITY_TRIGGER
+            input_boolean.harmony_switch:
+                name: Nintendo Switch
+                description: Nintendo Switch
+            input_boolean.babyphone_salon:
+                name: Babyphone
+            input_boolean.babyphone_chambre:
+                name: Babyphone Chambre
+            cover.volet_chambre_amis:
+                name: Volet Zelda
+                description: "Volet de la chambre d'amis"
+            cover.volet_cuisine:
+                name: Volet Cuisine
+                description: Volet de la cuisine
+            cover.volet_salon:
+                name: Volet Salon
+                description: Volet du Salon
+            cover.tous_les_volets:
+                name: Tous les volets
+                description: Tous les volets (Salon + Cuisine + Chambre amis)
+            remote.harmony_hub:
+                name: Television
+
+hue:
+  bridges:
+    - host: 192.168.1.35
+      allow_unreachable: true
+      allow_hue_groups: true
+
+alarm_control_panel:
+    platform: manual
+    pending_time: 30
+
+input_boolean:
+    lumiere_entree_auto:
+    guest_mode:
+        name: Mode Invité
+        icon: mdi:account-multiple
+
+binary_sensor: !include binary_sensors.yaml
+sensor: !include sensors.yaml
+
+group: !include groups.yaml
+automation: !include automations.yaml
+#script: !include scripts.yaml

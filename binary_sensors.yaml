@@ -1,0 +1,49 @@
+- platform: ping
+  host: 192.168.1.50
+  count: 2
+  scan_interval: 30
+
+- platform: mqtt
+  state_topic: "homeassistant_old/binary_sensor/ffmpeg_noise/state"
+  name: "Babyphone Ianto"
+  payload_on: "on"
+  payload_off: "off"
+  payload_not_available: "unavailable"
+  device_class: 'sound'
+
+- platform: mqtt
+  state_topic: "homeassistant_old/input_boolean/guest_mode/state"
+  name: "Guest mode (Test)"
+  payload_on: "on"
+  payload_off: "off"
+
+- platform: bayesian
+  prior: 0.5
+  name: 'Présence Hugo'
+  probability_threshold: 0.9
+  observations:
+    - entity_id: 'device_tracker.hugo_iphone'
+      prob_given_true: 0.9
+      prob_given_false: 0.4
+      platform: 'state'
+      to_state: 'home'
+    - entity_id: 'device_tracker.iphone'  # Bluetooth
+      prob_given_true: 0.9
+      prob_given_false: 0.2
+      platform: 'state'
+      to_state: 'home'
+    - entity_id: 'device_tracker.iphonehass'
+      prob_given_true: 0.9
+      prob_given_false: 0.4
+      platform: 'state'
+      to_state: 'home'
+    - entity_id: 'device_tracker.tile_3924587249026aa6'  # Cles Moto
+      prob_given_true: 0.8
+      prob_given_false: 0.5
+      platform: 'state'
+      to_state: 'home'
+    - entity_id: 'device_tracker.tile_f19f11555d37b1b8'  # Cles Appartement
+      prob_given_true: 0.9
+      prob_given_false: 0.3
+      platform: 'state'
+      to_state: 'home'
