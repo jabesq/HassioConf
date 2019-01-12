@@ -66,7 +66,7 @@ sensor:
             value_template: '{{ states.zwave.detecteur_inondation.attributes.battery_level }}'
         battery_sensor_door:
             entity_id: zwave.fibaro_system_fgdw002_door_opening_sensor_2
-            friendly_name: Batterie Détecteur Inondation
+            friendly_name: Batterie Détecteur Porte
             unit_of_measurement: '%'
             value_template: '{{ states.zwave.fibaro_system_fgdw002_door_opening_sensor_2.attributes.battery_level }}'
 

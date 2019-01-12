@@ -27,3 +27,6 @@
           {%else%}
               {{ states.climate.salon.attributes.current_temperature}}
           {%endif%}'
+      status_machine_laver:
+          friendly_name: Status Machine à laver
+          value_template: '{{ states.switch.machine_a_laver.attributes.state_detail }}'
