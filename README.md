@@ -1,4 +1,4 @@
-# [![Build Status](https://travis-ci.org/jabesq/Home-AssistantConf.svg?branch=master)](https://travis-ci.org/jabesq/Home-AssistantConf)Configuration files for Hass.io
+# [![Build Status](https://travis-ci.org/jabesq/HassioConf.svg?branch=master)](https://travis-ci.org/jabesq/HassioConf)Configuration files for Hass.io
 I know this is my third Home-Assistant configuration repository, but I prefer start from a blank page when I migrate my setup
 
 Home Assistant runs on my [Raspberry Pi 3](http://amzn.to/2e3DOBY) with [Aeon Labs Z Wave Stick (GEN 5)](http://amzn.to/2eAiAP0). I've also added a [Rfxcom USB Transceiver](https://www.amazon.fr/Rfxcom-Transceiver-Transmitter-Receiver-Somfy/dp/B01MYFAGWW/ref=sr_1_1?ie=UTF8&qid=1517229543&sr=8-1&keywords=rfxcom).  The main [SD Card](http://amzn.to/2xeBlgf) was upgraded to 16GB.
