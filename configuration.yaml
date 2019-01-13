@@ -48,6 +48,12 @@ http:
     ip_ban_enabled: True
     login_attempts_threshold: 3
 
+panel_iframe:
+  nodered:
+    title: Node-RED
+    icon: mdi:sitemap
+    url: https://hassio.dupras.fr/nodered
+
 # Enables configuration UI
 config:
 
