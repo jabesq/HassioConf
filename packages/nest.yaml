@@ -10,12 +10,3 @@ homeassistant:
 nest:
     client_id: !secret nest_client_id
     client_secret: !secret nest_client_secret
-
-group:
-    nest_protect:
-        name: Nest Protect
-        entities:
-          - binary_sensor.living_room_nest_protect_online
-          - sensor.living_room_nest_protect_battery_health
-          - sensor.living_room_nest_protect_smoke_status
-          - sensor.living_room_nest_protect_co_status

@@ -11,12 +11,6 @@
   payload_not_available: "unavailable"
   device_class: 'sound'
 
-- platform: mqtt
-  state_topic: "homeassistant_old/input_boolean/guest_mode/state"
-  name: "Guest mode (Test)"
-  payload_on: "on"
-  payload_off: "off"
-
 - platform: bayesian
   prior: 0.5
   name: 'Présence Hugo'

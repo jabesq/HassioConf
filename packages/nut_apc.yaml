@@ -57,16 +57,3 @@ binary_sensor:
         friendly_name: UPS
         device_class: light
         value_template: "{{ states.sensor.nut_ups_status_data.state == 'OL' or states.sensor.nut_ups_status_data.state == 'OL CHRG' }}"
-
-group:
-    apc_ups:
-        name: Onduleur
-        entities:
-          - sensor.nut_ups_model
-          - binary_sensor.ups_status_bs
-          - sensor.ups_status
-          - sensor.nut_ups_battery_charge
-          - sensor.nut_ups_load
-          - sensor.ups_battery_runtime_min
-          - sensor.nut_ups_input_voltage
-          - sensor.nut_ups_beeper_status

@@ -1,137 +1,126 @@
-#light:
-#  - platform: hue
-#    scan_interval: 10
-#  - platform: group
-#    name: Spots Salon
-#    entities:
-#      - light.spot_bibliotheque
-#      - light.spot_entree
-#      - light.spot_salon
-#      - light.spot_salon_couloir
-#  - platform: group
-#    name: Spots Couloir
-#    entities:
-#      - light.spot_couloir_1
-#      - light.spot_couloir_2
-#
 sensor:
   - platform: hue
   - platform: template
     sensors:
         lux_hue_cuisine:
-            entity_id: sensor.capteur_motion_cuisine
+            entity_id: binary_sensor.capteur_motion_cuisine
             friendly_name: Luminosité Cuisine (Hue Motion)
             unit_of_measurement: 'lux'
-            value_template: '{{ float(10**((states.sensor.capteur_motion_cuisine.attributes.light_level-1)/10000)) | round(0) }}'
+            value_template: '{{ float(10**((states.binary_sensor.capteur_motion_cuisine.attributes.light_level-1)/10000)) | round(0) }}'
         temp_hue_cuisine:
-            entity_id: sensor.capteur_motion_cuisine
+            entity_id: binary_sensor.capteur_motion_cuisine
             friendly_name: Température Cuisine (Hue Motion)
             unit_of_measurement: '°C'
-            value_template: '{{ states.sensor.capteur_motion_cuisine.attributes.temperature| round(1) }}'
+            value_template: '{{ states.binary_sensor.capteur_motion_cuisine.attributes.temperature| round(1) }}'
         lux_hue_chambre:
-            entity_id: sensor.capteur_chambre_motion_ianto
+            entity_id: binary_sensor.capteur_chambre_motion_ianto
             friendly_name: Luminosité Chambre Ianto (Hue Motion)
             unit_of_measurement: 'lux'
-            value_template: '{{ float(10**((states.sensor.capteur_chambre_motion_ianto.attributes.light_level-1)/10000)) | round(0) }}'
+            value_template: '{{ float(10**((states.binary_sensor.capteur_chambre_motion_ianto.attributes.light_level-1)/10000)) | round(0) }}'
         temp_hue_chambre:
-            entity_id: sensor.capteur_chambre_motion_ianto
+            entity_id: binary_sensor.capteur_chambre_motion_ianto
             friendly_name: Température Chambre Ianto (Hue Motion)
             unit_of_measurement: '°C'
-            value_template: '{{ states.sensor.capteur_chambre_motion_ianto.attributes.temperature| round(1) }}'
+            value_template: '{{ states.binary_sensor.capteur_chambre_motion_ianto.attributes.temperature| round(1) }}'
         battery_hue_switch_chambre_parents:
             entity_id: sensor.parents_chambre_interrupteur
             friendly_name: Batterie Hue Switch chambre parents
             unit_of_measurement: '%'
             value_template: '{{ states.sensor.parents_chambre_interrupteur.attributes.battery }}'
+            icon_template: >-
+                {% set battery_level = states('sensor.battery_hue_switch_chambre_parents')|int('unknown') %}
+                {% set battery_round = (battery_level|int / 10)|int * 10 %}
+                {% if battery_level == 'unknown' %}
+                  mdi:battery-unknown
+                {% else %}
+                  {% if battery_round >= 100 %}
+                    mdi:battery
+                  {% elif battery_round > 0 %}
+                    mdi:battery-{{ battery_round }}
+                  {% else %}
+                    mdi:battery-alert
+                  {% endif %}
+                {% endif %}
         battery_hue_switch_salon:
             entity_id: sensor.dimmer_switch_salon
             friendly_name: Batterie Hue Switch Salon
             unit_of_measurement: '%'
             value_template: '{{ states.sensor.dimmer_switch_salon.attributes.battery }}'
+            icon_template: >-
+                {% set battery_level = states('sensor.battery_hue_switch_salon')|int('unknown') %}
+                {% set battery_round = (battery_level|int / 10)|int * 10 %}
+                {% if battery_level == 'unknown' %}
+                  mdi:battery-unknown
+                {% else %}
+                  {% if battery_round >= 100 %}
+                    mdi:battery
+                  {% elif battery_round > 0 %}
+                    mdi:battery-{{ battery_round }}
+                  {% else %}
+                    mdi:battery-alert
+                  {% endif %}
+                {% endif %}
         battery_hue_switch_chambre_ianto:
             entity_id: sensor.interrupteur_chambre_de_ianto
             friendly_name: Batterie Hue Switch Chambre Ianto
             unit_of_measurement: '%'
             value_template: '{{ states.sensor.interrupteur_chambre_de_ianto.attributes.battery }}'
+            icon_template: >-
+                {% set battery_level = states('sensor.battery_hue_switch_chambre_ianto')|int('unknown') %}
+                {% set battery_round = (battery_level|int / 10)|int * 10 %}
+                {% if battery_level == 'unknown' %}
+                  mdi:battery-unknown
+                {% else %}
+                  {% if battery_round >= 100 %}
+                    mdi:battery
+                  {% elif battery_round > 0 %}
+                    mdi:battery-{{ battery_round }}
+                  {% else %}
+                    mdi:battery-alert
+                  {% endif %}
+                {% endif %}
         battery_hue_sensor_chambre_ianto:
-            entity_id: sensor.capteur_chambre_motion_ianto
+            entity_id: binary_sensor.capteur_chambre_motion_ianto
             friendly_name: Batterie Hue sensor chambre Ianto
             unit_of_measurement: '%'
-            value_template: '{{ states.sensor.capteur_chambre_motion_ianto.attributes.battery }}'
+            value_template: '{{ states.binary_sensor.capteur_chambre_motion_ianto.attributes.battery }}'
+            icon_template: >-
+                {% set battery_level = states('sensor.battery_hue_sensor_chambre_ianto')|int('unknown') %}
+                {% set battery_round = (battery_level|int / 10)|int * 10 %}
+                {% if battery_level == 'unknown' %}
+                  mdi:battery-unknown
+                {% else %}
+                  {% if battery_round >= 100 %}
+                    mdi:battery
+                  {% elif battery_round > 0 %}
+                    mdi:battery-{{ battery_round }}
+                  {% else %}
+                    mdi:battery-alert
+                  {% endif %}
+                {% endif %}
         battery_hue_sensor_cuisine:
-            entity_id: sensor.capteur_motion_cuisine
+            entity_id: binary_sensor.capteur_motion_cuisine
             friendly_name: Batterie Hue sensor Cuisine
             unit_of_measurement: '%'
-            value_template: '{{ states.sensor.capteur_motion_cuisine.attributes.battery }}'
+            value_template: '{{ states.binary_sensor.capteur_motion_cuisine.attributes.battery }}'
+            icon_template: >-
+                {% set battery_level = states('sensor.battery_hue_sensor_cuisine')|int('unknown') %}
+                {% set battery_round = (battery_level|int / 10)|int * 10 %}
+                {% if battery_level == 'unknown' %}
+                  mdi:battery-unknown
+                {% else %}
+                  {% if battery_round >= 100 %}
+                    mdi:battery
+                  {% elif battery_round > 0 %}
+                    mdi:battery-{{ battery_round }}
+                  {% else %}
+                    mdi:battery-alert
+                  {% endif %}
+                {% endif %}
 
 binary_sensor:
-  - platform: template
-    sensors:
-        motion_hue_cuisine:
-            entity_id: sensor.capteur_motion_cuisine
-            friendly_name: 'Mouvement Cuisine (Hue Motion)'
-            device_class: motion
-            value_template: "{{ is_state('sensor.capteur_motion_cuisine', 'on') }}"
-            delay_off: 00:01:00
-        motion_hue_chambre:
-            entity_id: sensor.capteur_chambre_motion_ianto
-            friendly_name: 'Mouvement Chambre Ianto (Hue Motion)'
-            device_class: motion
-            value_template: "{{ is_state('sensor.capteur_chambre_motion_ianto', 'on') }}"
-            delay_off: 00:01:00
-#
-#group:
-#    lumiere_piece:
-#        name: Lumière Pièces
-#        control: hidden
-#        entities:
-#          - light.salon
-#          - light.couloir
-#          - light.parents__chambre
-#          - light.ianto__chambre
-#          - light.zelda__chambre
-#          - light.terrasse
-#
-#    spots_salon:
-#        name: Spots Salon
-#        entities:
-#          - light.spot_bibliotheque
-#          - light.spot_entree
-#          - light.spot_salon
-#          - light.spot_salon_couloir
-#
-#    lumiere_couloir:
-#        name: Spots Couloir
-#        entities:
-#          - light.spot_couloir_1
-#          - light.spot_couloir_2
-#
-#    lumieres_chambre:
-#        name: Lumières Chambre
-#        entities:
-#          - light.plafond_chambre
-#          - light.lampe_de_chevet_hugo
-#          - light.lampe_de_chevet_vanessa
-#
-#    lumiere_chambre_enfant:
-#        name: Lumière Chambre Enfant
-#        entities:
-#          - light.plafond_chambre_enfant
-#          - light.lampe_chevet_ianto
-#
-#    lumiere_chambre_ami:
-#        name: Lumière Chambre Ami
-#        entities:
-#          - light.lampe_chambre_damis
-#          - light.hue_ambiance_candle_1
-#
-#    scene_hue:
-#        name: Scène Hue
-#        control: hidden
-#        entities:
-#          - script.hue_soiree_tv
-#          - script.hue_veilleuse_hugo
-#
+  - platform: hue
+
 #script:
 #    hue_soiree_tv:
 #        alias: Scène soirée TV

@@ -12,7 +12,6 @@ homeassistant:
     elevation: 0
     auth_providers:
       - type: homeassistant
-      - type: legacy_api_password
       - type: trusted_networks
     packages: !include_dir_named packages
     customize: !include customize.yaml
@@ -32,7 +31,6 @@ frontend:
     themes: !include_dir_merge_named themes
 
 http:
-    api_password: !secret api_password
     base_url: !secret base_url
     ssl_certificate: /ssl/fullchain.pem
     ssl_key: /ssl/privkey.pem
@@ -69,6 +67,13 @@ config:
 updater:
   # Optional, allows Home Assistant developers to focus on popular components.
   # include_used_components: true
+
+custom_updater:
+    track:
+      - components
+      - cards
+    component_urls:
+      - https://raw.githubusercontent.com/robmarkcole/Hue-sensors-HASS/master/custom_updater.json
 
 # Discover some devices automatically
 discovery:

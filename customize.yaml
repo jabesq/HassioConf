@@ -6,3 +6,5 @@ sensor.residence_eta:
   hidden: true
 binary_sensor.residence_away:
   hidden: true
+automation.hassio_start:
+  initial_state: 'on'
