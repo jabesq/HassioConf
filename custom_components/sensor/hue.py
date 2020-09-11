@@ -62,18 +62,13 @@ def parse_zgp(response):
     """Parse the json response for a ZGPSWITCH Hue Tap."""
     TAP_BUTTONS = {34: "1_click", 16: "2_click", 17: "3_click", 18: "4_click"}
     press = response["state"]["buttonevent"]
-    if press is None:
-        button = "No data"
-    else:
-        button = TAP_BUTTONS[press]
-
-    data = {
+    button = "No data" if press is None else TAP_BUTTONS[press]
+    return {
         "model": "ZGP",
         "name": response["name"],
         "state": button,
         "last_updated": response["state"]["lastupdated"].split("T"),
     }
-    return data
 
 
 def parse_rwl(response):
@@ -83,14 +78,14 @@ def parse_rwl(response):
         I know it should be _released not _up
         but _hold_up is too good to miss isn't it
     """
-    responsecodes = {"0": "_click", "1": "_hold", "2": "_click_up", "3": "_hold_up"}
-
     button = ""
     if response["state"]["buttonevent"]:
         press = str(response["state"]["buttonevent"])
+        responsecodes = {"0": "_click", "1": "_hold", "2": "_click_up", "3": "_hold_up"}
+
         button = str(press)[0] + responsecodes[press[-1]]
 
-    data = {
+    return {
         "model": "RWL",
         "name": response["name"],
         "state": button,
@@ -99,7 +94,6 @@ def parse_rwl(response):
         "reachable": response["config"]["reachable"],
         "last_updated": response["state"]["lastupdated"].split("T"),
     }
-    return data
 
 
 def get_bridges(hass):
